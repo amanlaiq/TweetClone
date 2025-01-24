@@ -33,6 +33,29 @@ export default function EditableImage({type,src,onChange,className,editable=fals
   }
 
   return (
-    
+    <FileDrop
+      onDrop={updateImage}
+      onDragOver={() => setIsFileOver(true)}
+      onDragLeave={() => setIsFileOver(false)}
+      onFrameDragEnter={() => setIsFileNearby(true)}
+      onFrameDragLeave={() => setIsFileNearby(false)}
+      onFrameDrop={() => {
+        setIsFileNearby(false);
+        setIsFileOver(false);
+      }}
+    >
+      <div className={"bg-twitterBorder text-white relative"}>
+        <div className={'absolute inset-0 '+extraClasses}></div>
+        {isUploading && (
+          <div className="absolute inset-0 flex items-center justify-center"
+               style={{backgroundColor:'rgba(48, 140, 216,0.9)'}}>
+            <PulseLoader size={14} color={'#fff'} />
+          </div>
+        )}
+        <div className={"cover flex items-center overflow-hidden "+className}>
+          {src && (<img src={src} className="w-full" alt=""/>)}
+        </div>
+      </div>
+    </FileDrop>
   );
 }
