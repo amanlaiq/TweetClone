@@ -26,6 +26,23 @@ export default function Upload({children,onUploadFinish}) {
   }
 
   return (
-    
+    <FileDrop
+      onDrop={uploadImage}
+      onDragOver={() => setIsFileOver(true)}
+      onDragLeave={() => setIsFileOver(false)}
+      onFrameDragEnter={() => setIsFileNearby(true)}
+      onFrameDragLeave={() => setIsFileNearby(false)}
+      onFrameDrop={() => {
+        setIsFileNearby(false);
+        setIsFileOver(false);
+      }}
+    >
+      <div className="relative">
+        {(isFileNearby || isFileOver) && (
+          <div className="bg-twitterBlue absolute inset-0 flex items-center justify-center">drop your images here</div>
+        )}
+        {children({isUploading})}
+      </div>
+    </FileDrop>
   );
 }
